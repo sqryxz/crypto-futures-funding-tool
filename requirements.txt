@@ -1,0 +1,7 @@
+requests==2.31.0
+python-binance==1.0.19
+pandas==2.1.4
+python-dotenv==1.0.0
+schedule==1.2.1
+aiohttp==3.9.1
+websockets==12.0 
