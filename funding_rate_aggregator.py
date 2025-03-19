@@ -39,6 +39,13 @@ class FundingRateAggregator:
         if os.path.exists(config.FUNDING_RATES_FILE):
             self.funding_rates_df = pd.read_csv(config.FUNDING_RATES_FILE)
             self.funding_rates_df['timestamp'] = pd.to_datetime(self.funding_rates_df['timestamp'])
+            
+            # Only keep data from the configured time window
+            start_time = datetime.now() - timedelta(hours=config.SUMMARY_HOURS)
+            self.funding_rates_df = self.funding_rates_df[self.funding_rates_df['timestamp'] > start_time]
+            
+            # Save the filtered data back to the CSV
+            self.funding_rates_df.to_csv(config.FUNDING_RATES_FILE, index=False)
 
     async def fetch_current_rates(self) -> Dict[str, float]:
         """Fetch current funding rates from all exchanges"""
@@ -72,11 +79,11 @@ class FundingRateAggregator:
         self.funding_rates_df.to_csv(config.FUNDING_RATES_FILE, index=False)
 
     def generate_daily_summary(self, use_all_data: bool = False) -> str:
-        """Generate a daily summary of funding rates"""
+        """Generate a summary of funding rates"""
         if use_all_data:
             recent_data = self.funding_rates_df
         else:
-            start_time = datetime.now() - timedelta(days=config.SUMMARY_START_DAYS)
+            start_time = datetime.now() - timedelta(hours=config.SUMMARY_HOURS)
             recent_data = self.funding_rates_df[self.funding_rates_df['timestamp'] > start_time]
         
         if recent_data.empty:
