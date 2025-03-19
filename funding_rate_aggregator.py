@@ -76,8 +76,8 @@ class FundingRateAggregator:
         if use_all_data:
             recent_data = self.funding_rates_df
         else:
-            last_24h = datetime.now() - timedelta(days=1)
-            recent_data = self.funding_rates_df[self.funding_rates_df['timestamp'] > last_24h]
+            start_time = datetime.now() - timedelta(days=config.SUMMARY_START_DAYS)
+            recent_data = self.funding_rates_df[self.funding_rates_df['timestamp'] > start_time]
         
         if recent_data.empty:
             return "No data available for analysis"

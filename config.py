@@ -16,8 +16,9 @@ BINANCE_PAIRS = ['BTCUSDT', 'ETHUSDT']
 DERIBIT_PAIRS = ['BTC-PERPETUAL', 'ETH-PERPETUAL']
 
 # Intervals and timeframes
-UPDATE_INTERVAL = 60  # seconds
+UPDATE_INTERVAL = 600  # seconds
 SUMMARY_INTERVAL = 24 * 60 * 60  # 24 hours in seconds
+SUMMARY_START_DAYS = 7  # Number of days to look back for summary
 
 # Thresholds for alerts (in percentage)
 FUNDING_RATE_THRESHOLDS = {
